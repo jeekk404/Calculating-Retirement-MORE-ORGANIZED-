@@ -1,0 +1,60 @@
+#include <iomanip>
+#include <iostream>
+#include <string>
+using namespace std;
+
+string formatRupiah(int jumlah) {
+    string angka = to_string(jumlah);
+    for (int i = static_cast<int>(angka.size()) - 3; i > 0; i -= 3) {
+        angka.insert(i, ".");
+    }
+    return "Rp " + angka;
+}
+
+void garis() {
+    cout << '+' << string(54, '-') << "+\n";
+}
+
+void baris(const string& teks = "") {
+    cout << "| " << left << setw(52) << teks << " |\n";
+}
+
+int main() {
+    int usia, masaKerja;
+    if (!(cin >> usia >> masaKerja) || usia < 0 || masaKerja < 0) {
+        cout << "Input tidak valid. Usia dan masa kerja harus berupa angka nonnegatif.\n";
+        return 1;
+    }
+
+    garis();
+    baris("             PUSAT INFORMASI PENSIUN");
+    baris("              Ringkasan Karyawan");
+    garis();
+    baris();
+    baris("  DATA KARYAWAN");
+    baris("  Usia         : " + to_string(usia) + " tahun");
+    baris("  Masa kerja   : " + to_string(masaKerja) + " tahun");
+    baris();
+    garis();
+    baris("  HASIL ANALISIS");
+
+    if (usia > 65) {
+        int uangPensiun = masaKerja > 35 ? 3000000 : 2000000;
+        baris("  Status       : SUDAH MEMASUKI MASA PENSIUN");
+        baris("  Uang pensiun : " + formatRupiah(uangPensiun));
+        baris("  Kategori     : " + string(masaKerja > 35 ? "Masa kerja di atas 35 tahun" : "Masa kerja maksimal 35 tahun"));
+    } else {
+        baris("  Status       : BELUM MEMASUKI MASA PENSIUN");
+        baris("  Menuju usia pensiun : " + to_string(66 - usia) + " tahun lagi");
+        baris("  Uang pensiun        : Belum berlaku");
+    }
+
+    baris();
+    garis();
+    baris("  KETENTUAN PROGRAM");
+    baris("  Pensiun berlaku untuk usia di atas 65 tahun.");
+    baris("  Masa kerja > 35 tahun : Rp 3.000.000");
+    baris("  Masa kerja <= 35 tahun: Rp 2.000.000");
+    garis();
+    return 0;
+}
